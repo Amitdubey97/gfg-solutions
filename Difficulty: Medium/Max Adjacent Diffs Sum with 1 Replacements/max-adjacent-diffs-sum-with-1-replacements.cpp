@@ -1,22 +1,16 @@
 class Solution {
-   public:
-   int maxDiffSum(vector<int>& arr) {
+  public:
+    int maxDiffSum(vector<int>& arr) {
+        // code here
+        vector<int>prev(2 , 0);
         int n = arr.size();
-
-        if (n <= 1)
-        return 0;
-
-       int low = 0, high = 0;
-
-       for (int i = 1; i < n; i++) {
-
-              int newLow = max(low, high + abs(arr[i - 1] - 1));     // when arr[i] is changed to 1
-
-              int newHigh = max(low + abs(arr[i] - 1), high + abs(arr[i] - arr[i - 1]));     // when arr[i] is not changed to  1
-
-              low = newLow;
-              high = newHigh;
-       }
-      return max(low, high);
-     }
+        for(int i = 1 ;i<n ; i++){
+            vector<int>curr(2 , 0);
+            curr[0] = max(prev[0] + abs(arr[i] - arr[i-1]) , prev[1] + abs(arr[i] - 1));
+            curr[1] = prev[0] + abs(1 - arr[i-1]);
+            swap(curr , prev);
+        }
+        return max(prev[0] , prev[1]);
+    }
 };
+
